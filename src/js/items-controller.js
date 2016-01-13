@@ -151,6 +151,8 @@ var _getItemAt,
 		item.loading = true;
 		item.loaded = false;
 		var img = item.img = framework.createEl('pswp__img', 'img');
+		item.img = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		item.img.setAttribute('class', 'pswp__img');
 		var onComplete = function() {
 			item.loading = false;
 			item.loaded = true;
@@ -169,6 +171,8 @@ var _getItemAt,
 			onComplete();
 		};		
 
+		item.img.setAttribute('viewBox', '0 0 ' + item.w + ' ' + item.h);
+		item.img.innerHTML = '<image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' + item.src + '" preserveAspectRatio="none" width="' + item.w + '" height="' + item.h + '"></image>';
 		img.src = item.src;// + '?a=' + Math.random();
 
 		return img;
@@ -415,6 +419,8 @@ _registerModule('Controller', {
 						}
 					}
 
+					_shout('svgLoadComplete', index, item.img);
+
 					item.loadComplete = null;
 					item.img = null; // no need to store image element after it's added
 
@@ -463,10 +469,17 @@ _registerModule('Controller', {
 				
 			} else if(item.src && !item.loadError) {
 				// image object is created every time, due to bugs of image loading & delay when switching images
-				img = framework.createEl('pswp__img', 'img');
+				//img = framework.createEl('pswp__img', 'img');
+				img = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+				img.setAttribute('class', 'pswp__img');
+				img.setAttribute('viewBox', '0 0 ' + item.w + ' ' + item.h);
+				img.innerHTML = '<image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' + item.src + '" preserveAspectRatio="none" width="' + item.w + '" height="' + item.h + '"></image>';
 				img.style.opacity = 1;
-				img.src = item.src;
+				//img.src = item.src;
+
 				_setImageSize(item, img);
+
+				_shout('svgLoadComplete', index, img);
 				_appendImage(index, item, baseDiv, img, true);
 			}
 			

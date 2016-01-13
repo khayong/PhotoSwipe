@@ -730,7 +730,7 @@ var PhotoSwipeUI_Default =
 				return;
 			}
 
-			if(framework.hasClass(target, 'pswp__img')) {
+			if(framework.hasClass(target, 'pswp__img') || target.tagName == 'image') {
 				if(pswp.getZoomLevel() === 1 && pswp.getZoomLevel() <= pswp.currItem.fitRatio) {
 					if(_options.clickToCloseNonZoomable) {
 						pswp.close();
@@ -752,7 +752,7 @@ var PhotoSwipeUI_Default =
 			}
 
 			// tap to close gallery
-			if(_options.tapToClose && (framework.hasClass(target, 'pswp__img') || _hasCloseClass(target)) ) {
+			if(_options.tapToClose && (framework.hasClass(target, 'pswp__img') || target.tagName == 'image' || _hasCloseClass(target)) ) {
 				pswp.close();
 				return;
 			}
